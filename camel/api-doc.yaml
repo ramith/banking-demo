@@ -1,0 +1,112 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "User API",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://0.0.0.0:8080/api"
+  } ],
+  "tags" : [ {
+    "name" : "/users",
+    "description" : "User REST service"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "tags" : [ "/users" ],
+        "summary" : "Find all users",
+        "operationId" : "verb1",
+        "responses" : {
+          "200" : {
+            "description" : "All users successfully returned",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}" : {
+      "get" : {
+        "tags" : [ "/users" ],
+        "summary" : "Find user by ID",
+        "operationId" : "verb2",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of the user",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "User successfully returned",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "/users" ],
+        "summary" : "Update a user",
+        "operationId" : "verb3",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of the user to update",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "The user to update",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "User successfully updated"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

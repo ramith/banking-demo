@@ -1,0 +1,12 @@
+schemaVersion: "1.1"
+endpoints:
+    - name: camel-userinformation-api-5c6
+      displayName: Camel UserInformation API
+      service:
+        basePath: /api
+        port: 8080
+      type: REST
+      networkVisibilities:
+        - Project
+        - Public
+      schemaFilePath: api-doc.yaml
