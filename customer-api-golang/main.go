@@ -25,7 +25,7 @@ const (
 	mysqlHostEnv       = "MYSQL_HOST"
 	mysqlUserEnv       = "MYSQL_USER"
 	mysqlPwdEnv        = "MYSQL_PWD"
-	kafkaBrokerURLEnv  = "KAFKA_BROKER_URL"
+	kafkaURLEnv        = "KAFKA_URL"
 	kafkaTopicEnv      = "KAFKA_TOPIC"
 	kafkaUserEnv       = "KAFKA_USER"
 	kafkaPasswordEnv   = "KAFKA_PASSWORD"
@@ -81,7 +81,7 @@ func init() {
 	//}
 
 	kafkaWriter = &kafka.Writer{
-		Addr:     kafka.TCP(os.Getenv(kafkaBrokerURLEnv)),
+		Addr:     kafka.TCP(os.Getenv(kafkaURLEnv)),
 		Topic:    os.Getenv(kafkaTopicEnv),
 		Balancer: &kafka.LeastBytes{},
 		Transport: &kafka.Transport{
