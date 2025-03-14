@@ -12,7 +12,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/segmentio/kafka-go"
-//	"github.com/segmentio/kafka-go/sasl/plain"
+
+	//	"github.com/segmentio/kafka-go/sasl/plain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -84,7 +85,7 @@ func init() {
 		Topic:    os.Getenv(kafkaTopicEnv),
 		Balancer: &kafka.LeastBytes{},
 		Transport: &kafka.Transport{
-			TLS:  tlsConfig,
+			TLS: tlsConfig,
 			//SASL: mechanism,
 		},
 		RequiredAcks: kafka.RequireAll,
@@ -117,24 +118,24 @@ func createCustomer(c *gin.Context) {
 		return
 	}
 
-	if err := db.Table(tableName).Create(&newCustomer).Error; err != nil {
-		log.Printf("error creating customer: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to create customer"})
-		return
-	}
-
 	msg := kafka.Message{
-		Key:   []byte(newCustomer.AccountID),
 		Value: []byte(fmt.Sprintf(`{"accountId":"%s","firstName":"%s","lastName":"%s","kycStatus":"%s"}`, newCustomer.AccountID, newCustomer.FirstName, newCustomer.LastName, newCustomer.KYCStatus)),
 		Time:  time.Now(),
 	}
 
 	if err := kafkaWriter.WriteMessages(context.Background(), msg); err != nil {
 		log.Printf("error publishing to Kafka: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Kafka publishing error"})
+		return
 	}
 
-	log.Printf("customer created successfully: %s", newCustomer.AccountID)
-	c.JSON(http.StatusCreated, newCustomer)
+	if err := db.Table("customer").Create(&newCustomer).Error; err != nil {
+		log.Printf("error creating customer: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "database error"})
+		return
+	}
+
+	c.JSON(http.StatusOK, newCustomer)
 }
 
 func main() {
