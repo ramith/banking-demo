@@ -5,15 +5,14 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/segmentio/kafka-go"
 	"github.com/segmentio/kafka-go/sasl/plain"
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -55,7 +54,7 @@ func init() {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	caCert, err := ioutil.ReadFile(os.Getenv(kafkaCACertEnv))
+	caCert, err := os.ReadFile(os.Getenv(kafkaCACertEnv))
 	if err != nil {
 		log.Fatalf("unable to read Kafka CA certificate: %v", err)
 	}
@@ -88,6 +87,9 @@ func init() {
 			TLS:  tlsConfig,
 			SASL: mechanism,
 		},
+		RequiredAcks: kafka.RequireAll,
+		Async:        false,
+		BatchTimeout: 0,
 	}
 }
 
