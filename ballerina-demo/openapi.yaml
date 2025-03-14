@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Customer XML to JSON Service
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /customer/{customerId}:
+    get:
+      summary: Fetch customer data and convert XML to JSON
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully fetched and converted XML to JSON
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

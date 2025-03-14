@@ -5,9 +5,9 @@ import ballerina/xmldata;
 
 configurable string backendUrl = ?;
 
-service /customer on new http:Listener(8080) {
+service / on new http:Listener(8080) {
 
-    resource function get [string customerId]() returns json|error {
+    resource function get customer/[string customerId]() returns json|error {
         // Create a new HTTP client
         http:Client clientEndpoint = check new (backendUrl);
 
