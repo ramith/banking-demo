@@ -12,7 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/segmentio/kafka-go"
-	"github.com/segmentio/kafka-go/sasl/plain"
+//	"github.com/segmentio/kafka-go/sasl/plain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -74,10 +74,10 @@ func init() {
 		InsecureSkipVerify: false,
 	}
 
-	mechanism := plain.Mechanism{
-		Username: os.Getenv(kafkaUserEnv),
-		Password: os.Getenv(kafkaPasswordEnv),
-	}
+	//mechanism := plain.Mechanism{
+	//	Username: os.Getenv(kafkaUserEnv),
+	//	Password: os.Getenv(kafkaPasswordEnv),
+	//}
 
 	kafkaWriter = &kafka.Writer{
 		Addr:     kafka.TCP(os.Getenv(kafkaBrokerURLEnv)),
@@ -85,7 +85,7 @@ func init() {
 		Balancer: &kafka.LeastBytes{},
 		Transport: &kafka.Transport{
 			TLS:  tlsConfig,
-			SASL: mechanism,
+			//SASL: mechanism,
 		},
 		RequiredAcks: kafka.RequireAll,
 		Async:        false,
