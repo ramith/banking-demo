@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info:
+  title: CountryInfoAPI
+  description: API Definition of CountryInfoAPI
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/countryinfo
+paths:
+  /list:
+    get:
+      responses:
+        default:
+          description: Default response

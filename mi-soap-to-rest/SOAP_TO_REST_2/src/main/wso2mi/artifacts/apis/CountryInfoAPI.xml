@@ -1,0 +1,22 @@
+<api xmlns="http://ws.apache.org/ns/synapse" name="CountryInfoAPI" context="/countryinfo">
+    <resource methods="GET" uri-template="/list">
+        <inSequence>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soap:Body>
+                            <ListOfCountryNamesByName xmlns="https://soap-service-free.mock.beeceptor.com/CountryInfoService"/>
+                        </soap:Body>
+                    </soap:Envelope>
+                </format>
+                <args/>
+            </payloadFactory>
+            <header name="Content-Type" value="text/xml; charset=utf-8"/>
+            <header name="SOAPAction" value="https://soap-service-free.mock.beeceptor.com/CountryInfoService.wso/ListOfCountryNamesByName"/>
+            <call>
+                <endpoint key="SOAPServiceEndpoint"/>
+            </call>
+            <respond/>
+        </inSequence>
+    </resource>
+</api>
