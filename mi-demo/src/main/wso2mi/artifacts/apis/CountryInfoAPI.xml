@@ -1,0 +1,7 @@
+<api xmlns="http://ws.apache.org/ns/synapse" name="CountryInfoAPI" context="/countryinfo">
+    <resource methods="GET" uri-template="/get">
+        <inSequence>
+            <sequence key="CountryInfoSequence"/>
+        </inSequence>
+    </resource>
+</api>

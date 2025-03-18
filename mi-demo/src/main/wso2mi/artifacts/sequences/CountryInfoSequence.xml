@@ -1,0 +1,18 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="CountryInfoSequence">
+    <payloadFactory media-type="xml">
+        <format>
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                <soap:Body>
+                    <ListOfContinentsByName xmlns="https://soap-service-free.mock.beeceptor.com/CountryInfoService"/>
+                </soap:Body>
+            </soap:Envelope>
+        </format>
+        <args/>
+    </payloadFactory>
+    <header name="Content-Type" value="text/xml; charset=utf-8"/>
+    <header name="Action" scope="default" value="https://soap-service-free.mock.beeceptor.com/CountryInfoService.wso/ListOfContinentsByName"/>
+    <call>
+        <endpoint key="CountryInfoServiceEndpoint"/>
+    </call>
+    <property name="messageType" value="application/json" scope="axis2"/>
+</sequence>
